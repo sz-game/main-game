@@ -1,0 +1,2955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakar Games - Play 4000+ Games Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            background: #2d2d44;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hamburger {
+            width: 35px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #7c7cff;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 284px 12px 20px;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #7c7cff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-categories {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-categories a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-categories a:hover {
+            color: #7c7cff;
+        }
+
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-icon:hover {
+            border-color: #7c7cff;
+            transform: scale(1.1);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 81px;
+            width: 80px;
+            height: calc(100vh - 81px);
+            background: #2d2d44;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: width 0.3s ease;
+            z-index: 998;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .sidebar:hover {
+            width: 250px;
+        }
+
+        .sidebar.hidden {
+            left: -80px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(124, 124, 255, 0.1);
+        }
+
+        .sidebar-item-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-item-text {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar:hover .sidebar-item-text {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 80px;
+            margin-top: 81px;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Section Styles */
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .add-icon {
+            width: 30px;
+            height: 30px;
+            background: #7c7cff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .add-icon:hover {
+            transform: rotate(90deg);
+        }
+
+        .view-more {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .nav-arrows {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-arrow {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #1a1a2e;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .nav-arrow:hover {
+            background: #7c7cff;
+            transform: scale(1.1);
+        }
+
+        /* Platform Icons */
+        .platforms {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .platform-icon {
+            width: 80px;
+            height: 80px;
+            background: #3d3d5c;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .platform-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(124, 124, 255, 0.3);
+        }
+
+        .games-count {
+            font-size: 28px;
+            font-weight: bold;
+            margin-left: auto;
+        }
+
+        /* Game Grid Container */
+        .games-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .games-wrapper {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            min-width: 100%;
+            padding-right: 20px;
+        }
+
+        .game-card {
+            background: #6b6b9b;
+            border-radius: 15px;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(124, 124, 255, 0.4);
+        }
+
+        .game-card.large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        /* Scroll Shadow */
+        .scroll-shadow {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 100px;
+            background: linear-gradient(to left, rgba(26, 26, 46, 0.9), transparent);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .games-container:hover .scroll-shadow {
+            opacity: 1;
+        }
+
+        .scroll-arrow {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .games-container:hover .scroll-arrow {
+            opacity: 1;
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 15px;
+        }
+
+        .category-card {
+            background: #6b6b9b;
+            border-radius: 50%;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 10px;
+        }
+
+        .category-card:hover {
+            transform: scale(1.1);
+            background: #7c7cff;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+        }
+
+        .category-name {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .text-box {
+            grid-column: span 2;
+            grid-row: span 2;
+            background: #6b6b9b;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* All Games Grid */
+        .all-games-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .search-container {
+                display: none;
+            }
+
+            .nav-categories {
+                display: none;
+            }
+
+            .header-right {
+                gap: 15px;
+            }
+
+            .sidebar {
+                width: 70px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .sidebar {
+                left: -70px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .all-games-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .platforms {
+                overflow-x: auto;
+            }
+
+            .platform-icon {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #7c7cff;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9999ff;
+        }
+        .header2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .plus-icon {
+            background: #6c63ff;
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 20px;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .view-more {
+            color: #ccc;
+            font-size: 16px;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: background 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .grid-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .grid-slider {
+            display: flex;
+            transition: transform 0.4s ease;
+            gap: 20px;
+        }
+
+        .grid-page {
+            min-width: 100%;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(3, 120px);
+            gap: 8px;
+            height: 380px;
+        }
+
+        .game-item {
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            font-size: 12px;
+        }
+
+        .game-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        /* Row 1 layout exactly as in image */
+        .item-1 { /* Moto bike game - large */
+            grid-column: 1 / 3;
+            grid-row: 1 / 3;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+        }
+
+        .item-2 { /* Soccer game */
+            grid-column: 3;
+            grid-row: 1;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .item-3 { /* Car racing */
+            grid-column: 4;
+            grid-row: 1;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        }
+
+        .item-4 { /* Stickman */
+            grid-column: 5;
+            grid-row: 1;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .item-5 { /* Cooking */
+            grid-column: 6;
+            grid-row: 1;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+        }
+
+        .item-6 { /* Makeup */
+            grid-column: 6;
+            grid-row: 2;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+
+        /* Row 2 */
+        .item-7 { /* Beauty Salon - large center */
+            grid-column: 3 / 5;
+            grid-row: 2 / 4;
+            background: linear-gradient(45deg, #43e97b, #38f9d7);
+            font-size: 16px;
+        }
+
+        .item-8 { /* Who is lying */
+            grid-column: 5;
+            grid-row: 2;
+            background: linear-gradient(45deg, #fa709a, #fee140);
+        }
+
+        .item-9 { /* Adventure game */
+            grid-column: 6;
+            grid-row: 3;
+            background: linear-gradient(45deg, #a8edea, #fed6e3);
+        }
+
+        /* Row 3 */
+        .item-10 { /* Stick fighter */
+            grid-column: 1;
+            grid-row: 3;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+        }
+
+        .item-11 { /* Clock game */
+            grid-column: 2;
+            grid-row: 3;
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+        }
+
+        .item-12 { /* War planes */
+            grid-column: 5;
+            grid-row: 3;
+            background: linear-gradient(45deg, #a18cd1, #fbc2eb);
+        }
+
+        .game-content {
+            z-index: 2;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .game-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .game-item:hover::before {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .page-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+           /* Specific namespace for Feature Games Grid - fg-grid */
+        .fg-grid-container * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .fg-grid-main-wrapper {
+            background: #1a1a2e;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .fg-grid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .fg-grid-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .fg-grid-plus-icon {
+            background: #6c5ce7;
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 20px;
+            color: white;
+        }
+
+        .fg-grid-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .fg-grid-view-more {
+            color: #ccc;
+            font-size: 16px;
+        }
+
+        .fg-grid-nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+
+        .fg-grid-nav-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .fg-grid-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .fg-grid-slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: calc(100% * 5); /* 5 slides total */
+            cursor: grab;
+        }
+
+        .fg-grid-slider:active {
+            cursor: grabbing;
+        }
+
+        .fg-grid-page {
+            width: 20%; /* Each slide takes 20% of total width */
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(2, 120px);
+            gap: 15px;
+            flex-shrink: 0;
+            padding-right: 20px;
+        }
+
+        /* Responsive adjustments for Feature Games Grid */
+        @media (max-width: 1200px) {
+            .fg-grid-page {
+                grid-template-columns: repeat(4, 1fr) !important;
+                grid-template-rows: repeat(3, 110px);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .fg-grid-page {
+                grid-template-columns: repeat(3, 1fr) !important;
+                grid-template-rows: repeat(4, 100px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .fg-grid-page {
+                grid-template-columns: repeat(2, 1fr) !important;
+                grid-template-rows: repeat(5, 90px);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .fg-grid-page {
+                grid-template-columns: 1fr !important;
+                grid-template-rows: repeat(10, 80px);
+            }
+        }
+
+        .fg-grid-game-item {
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: 12px;
+            background-color: #6c5ce7;
+        }
+
+        .fg-grid-game-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
+            z-index: 10;
+        }
+
+        .fg-grid-game-content {
+            z-index: 2;
+            font-size: 12px;
+            font-weight: bold;
+            background: rgba(0,0,0,0.8);
+            padding: 6px 12px;
+            border-radius: 8px;
+            text-shadow: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .fg-grid-game-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .fg-grid-game-item:hover::before {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .fg-grid-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 25px;
+        }
+
+        .fg-grid-page-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .fg-grid-page-dot.fg-grid-active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* Smooth sliding animation for Feature Games Grid */
+        .fg-grid-slider.fg-grid-sliding {
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Ripple animation for Feature Games Grid */
+        @keyframes fg-grid-ripple {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .fg-grid-ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.6);
+            transform: scale(0);
+            animation: fg-grid-ripple 0.6s linear;
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+        }
+         /* sarkargames Categories Section */
+        .sarkargames-categories-section {
+            background: #1a1a3a;
+            border-radius: 12px;
+            height: 200px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .sarkargames-info-panel {
+            width: 350px;
+            padding: 30px;
+            background: #1a1a3a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .sarkargames-section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .sarkargames-section-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #b3b3d1;
+            margin-bottom: 20px;
+        }
+
+        .sarkargames-learn-more {
+            color: #6366f1;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .sarkargames-learn-more:hover {
+            color: #818cf8;
+        }
+
+        .sarkargames-categories-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sarkargames-categories-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: grab;
+        }
+
+        .sarkargames-categories-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .sarkargames-categories-page {
+            min-width: 100%;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .sarkargames-category-item {
+            background: #2d2d5f;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 15px 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sarkargames-category-item:hover {
+            background: #3d3d7f;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .sarkargames-category-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .sarkargames-category-item:hover .sarkargames-category-icon {
+            transform: scale(1.1);
+        }
+
+        .sarkargames-category-name {
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .sarkargames-nav-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .sarkargames-nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .sarkargames-nav-arrow:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        /* Auto-slide indicator */
+        .sarkargames-progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 350px;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sarkargames-progress-fill {
+            height: 100%;
+            background: #6366f1;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* Click ripple effect */
+        .sarkargames-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: sarkargames-ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes sarkargames-ripple-animation {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .sarkargames-categories-page {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 12px;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sarkargames-categories-section {
+                height: auto;
+                flex-direction: column;
+            }
+
+            .sarkargames-info-panel {
+                width: 100%;
+                padding: 20px;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .sarkargames-categories-page {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                padding: 20px;
+                min-height: 200px;
+            }
+
+            .sarkargames-nav-arrow {
+                right: 10px;
+            }
+
+            .sarkargames-progress-bar {
+                left: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sarkargames-categories-page {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .sarkargames-category-item {
+                padding: 12px 8px;
+            }
+
+            .sarkargames-category-icon {
+                font-size: 20px;
+                margin-bottom: 6px;
+            }
+
+            .sarkargames-category-name {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sarkargames-categories-page {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Smooth scrolling for touch devices */
+        .sarkargames-categories-container {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Custom scrollbar for webkit browsers */
+        .sarkargames-categories-container::-webkit-scrollbar {
+            display: none;
+        }
+          /* All Games Slider */
+        .ags-container {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #1a1a2e;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .ags-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px 15px 20px;
+            background: #1a1a2e;
+        }
+
+        .ags-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .ags-plus-icon {
+            background: #6c5ce7;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .ags-header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ags-view-more {
+            color: #b3b3d1;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .ags-header-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .ags-nav-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .ags-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .ags-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .ags-grid-container {
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: #0f0f23;
+            padding: 15px;
+        }
+
+        .ags-grid-wrapper {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: grab;
+            width: calc(100% * 4); /* 4 pages total */
+        }
+
+        .ags-grid-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .ags-grid-page {
+            min-width: 25%; /* Each page takes 25% of total width */
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 8px;
+            height: 480px;
+            background: #0f0f23;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .ags-game-card {
+            position: relative;
+            background: #6b73a3;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .ags-game-card:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .ags-game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .ags-game-card:hover .ags-game-image {
+            transform: scale(1.05);
+        }
+
+        /* Large Right Arrow Overlay */
+        .ags-large-arrow {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            color: #1a1a2e;
+            font-size: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 20;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .ags-large-arrow:hover {
+            background: #ffffff;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .ags-large-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: translateY(-50%);
+        }
+
+        /* Click Ripple Effect */
+        .ags-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ags-ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ags-ripple-animation {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .ags-grid-page {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(5, 1fr);
+                height: 600px;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .ags-grid-page {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(7, 1fr);
+                height: 700px;
+                gap: 5px;
+            }
+
+            .ags-header {
+                padding: 15px;
+            }
+
+            .ags-title {
+                font-size: 20px;
+            }
+
+            .ags-large-arrow {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                right: 15px;
+            }
+
+            .ags-grid-container {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .ags-grid-page {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(10, 1fr);
+                height: 1000px;
+                gap: 4px;
+            }
+
+            .ags-header-controls {
+                gap: 10px;
+            }
+
+            .ags-view-more {
+                font-size: 14px;
+            }
+
+            .ags-nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            .ags-grid-container {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .ags-grid-page {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(20, 1fr);
+                height: 1600px;
+                gap: 3px;
+            }
+
+            .ags-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .ags-header-controls {
+                align-self: flex-end;
+            }
+
+            .ags-grid-container {
+                padding: 5px;
+            }
+        }
+
+        /* Loading placeholder */
+        .ags-game-card.loading {
+            background: #6b73a3;
+            animation: ags-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes ags-pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="hamburger" onclick="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="logo">
+                <div class="logo-icon">🎮</div>
+                <span>Sakar Games</span>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search games...">
+                <button class="search-btn">🔍</button>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="nav-categories">
+                <a href="#">Action</a>
+                <a href="#">New</a>
+            </div>
+            <div class="user-icon">👤</div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🏠</span>
+            <span class="sidebar-item-text">Home</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🕐</span>
+            <span class="sidebar-item-text">Recently played</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">✨</span>
+            <span class="sidebar-item-text">New</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🔥</span>
+            <span class="sidebar-item-text">Trending now</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🔄</span>
+            <span class="sidebar-item-text">Updated</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🎮</span>
+            <span class="sidebar-item-text">Originals</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">👥</span>
+            <span class="sidebar-item-text">Multiplayer</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">👫</span>
+            <span class="sidebar-item-text">2 Player</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">⚔️</span>
+            <span class="sidebar-item-text">Action</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🗺️</span>
+            <span class="sidebar-item-text">Adventure</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🏀</span>
+            <span class="sidebar-item-text">Basketball</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">💄</span>
+            <span class="sidebar-item-text">Beauty</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🚴</span>
+            <span class="sidebar-item-text">Bike</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🚗</span>
+            <span class="sidebar-item-text">Car</span>
+        </div>
+        <div class="sidebar-item">
+            <span class="sidebar-item-icon">🃏</span>
+            <span class="sidebar-item-text">Card</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Other Platforms Section -->
+        <div class="section">
+            <h2>Other Platforms</h2>
+            <div class="platforms">
+                <div class="platform-icon">🎮</div>
+                <div class="platform-icon">💠</div>
+                <div class="platform-icon">🍎</div>
+                <div class="platform-icon">🦴</div>
+                <div class="platform-icon">🐧</div>
+                <div class="platform-icon">🎯</div>
+                <div class="games-count">4,000+ Games</div>
+            </div>
+        </div>
+<div class="header2">
+        <div class="title">
+            Random Games <span class="plus-icon">+</span>
+        </div>
+        <div class="controls">
+            <span class="view-more">View More</span>
+            <button class="nav-btn" onclick="previousPage()">‹</button>
+            <button class="nav-btn" onclick="nextPage()">›</button>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid-slider" id="gridSlider">
+            <!-- First Page - Exact layout as image -->
+            <div class="grid-page">
+                <div class="game-item item-1">
+                    <div class="game-content">🏍️<br>Moto X3M</div>
+                </div>
+                <div class="game-item item-2">
+                    <div class="game-content">⚽<br>Soccer</div>
+                </div>
+                <div class="game-item item-3">
+                    <div class="game-content">🏎️<br>Racing</div>
+                </div>
+                <div class="game-item item-4">
+                    <div class="game-content">🎮<br>Stickman</div>
+                </div>
+                <div class="game-item item-5">
+                    <div class="game-content">🍳<br>Cooking</div>
+                </div>
+                <div class="game-item item-6">
+                    <div class="game-content">💄<br>Makeup</div>
+                </div>
+                <div class="game-item item-7">
+                    <div class="game-content">💅<br>Beauty Salon</div>
+                </div>
+                <div class="game-item item-8">
+                    <div class="game-content">🤔<br>Who is Lying</div>
+                </div>
+                <div class="game-item item-9">
+                    <div class="game-content">⚔️<br>Adventure</div>
+                </div>
+                <div class="game-item item-10">
+                    <div class="game-content">🥷<br>Stick Fight</div>
+                </div>
+                <div class="game-item item-11">
+                    <div class="game-content">⏰<br>Clock Game</div>
+                </div>
+                <div class="game-item item-12">
+                    <div class="game-content">✈️<br>War Planes</div>
+                </div>
+            </div>
+            
+            <!-- Second Page - More games with same layout pattern -->
+            <div class="grid-page">
+                <div class="game-item item-1">
+                    <div class="game-content">🎯<br>Target Game</div>
+                </div>
+                <div class="game-item item-2">
+                    <div class="game-content">🏀<br>Basketball</div>
+                </div>
+                <div class="game-item item-3">
+                    <div class="game-content">🚗<br>Car Game</div>
+                </div>
+                <div class="game-item item-4">
+                    <div class="game-content">🎨<br>Art Game</div>
+                </div>
+                <div class="game-item item-5">
+                    <div class="game-content">🍕<br>Pizza</div>
+                </div>
+                <div class="game-item item-6">
+                    <div class="game-content">👗<br>Fashion</div>
+                </div>
+                <div class="game-item item-7">
+                    <div class="game-content">🎪<br>Circus Game</div>
+                </div>
+                <div class="game-item item-8">
+                    <div class="game-content">🧩<br>Puzzle</div>
+                </div>
+                <div class="game-item item-9">
+                    <div class="game-content">🎭<br>Acting</div>
+                </div>
+                <div class="game-item item-10">
+                    <div class="game-content">🎲<br>Dice Game</div>
+                </div>
+                <div class="game-item item-11">
+                    <div class="game-content">🎵<br>Music</div>
+                </div>
+                <div class="game-item item-12">
+                    <div class="game-content">🚀<br>Space</div>
+                </div>
+            </div>
+        </div>
+        <div class="pagination">
+            <div class="page-dot active" onclick="goToPage(0)"></div>
+            <div class="page-dot" onclick="goToPage(1)"></div>
+        </div><br>
+            <div class="fg-grid-container">
+        <div class="fg-grid-header">
+            <div class="fg-grid-title">
+                Feature Games <span class="fg-grid-plus-icon">+</span>
+            </div>
+            <div class="fg-grid-controls">
+                <span class="fg-grid-view-more">View More</span>
+                <button class="fg-grid-nav-btn" onclick="FeatureGamesGrid.previousPage()">‹</button>
+                <button class="fg-grid-nav-btn" onclick="FeatureGamesGrid.nextPage()">›</button>
+            </div>
+        </div>
+
+        <div class="fg-grid-container">
+            <div class="fg-grid-slider" id="fgGridSlider">
+                <!-- Slide 1 - 10 games -->
+                <div class="fg-grid-page">
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/eggy-car.jpg');">
+                        <div class="fg-grid-game-content">Eggy Car</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/drift-dudes.jpg');">
+                        <div class="fg-grid-game-content">Drift Dudes</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/drive-mad.jpg');">
+                        <div class="fg-grid-game-content">Drive Mad</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/1v1-lol.jpg');">
+                        <div class="fg-grid-game-content">1v1 LOL</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/monster-tracks.jpg');">
+                        <div class="fg-grid-game-content">Monster Tracks</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/basketball-legends.jpg');">
+                        <div class="fg-grid-game-content">Basketball Legends</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/eggy-car.jpg');">
+                        <div class="fg-grid-game-content">Racing Pro</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/drift-dudes.jpg');">
+                        <div class="fg-grid-game-content">Car Drift</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/drive-mad.jpg');">
+                        <div class="fg-grid-game-content">Speed Racing</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/1v1-lol.jpg');">
+                        <div class="fg-grid-game-content">Battle Arena</div>
+                    </div>
+                </div>
+                
+                <!-- Slide 2 - 10 more games -->
+                <div class="fg-grid-page">
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/monster-tracks.jpg');">
+                        <div class="fg-grid-game-content">Truck Game</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/basketball-legends.jpg');">
+                        <div class="fg-grid-game-content">Sports Game</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/eggy-car.jpg');">
+                        <div class="fg-grid-game-content">Action Game</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/drift-dudes.jpg');">
+                        <div class="fg-grid-game-content">Adventure</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/drive-mad.jpg');">
+                        <div class="fg-grid-game-content">Strategy</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/1v1-lol.jpg');">
+                        <div class="fg-grid-game-content">Shooting</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/monster-tracks.jpg');">
+                        <div class="fg-grid-game-content">Puzzle</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/basketball-legends.jpg');">
+                        <div class="fg-grid-game-content">Arcade</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/eggy-car.jpg');">
+                        <div class="fg-grid-game-content">Simulation</div>
+                    </div>
+                    <div class="fg-grid-game-item" style="background-image: url('https://eggy-car-official.com/sarkar/drift-dudes.jpg');">
+                        <div class="fg-grid-game-content">Multiplayer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fg-grid-pagination">
+            <div class="fg-grid-page-dot fg-grid-active" onclick="FeatureGamesGrid.goToPage(0)"></div>
+            <div class="fg-grid-page-dot" onclick="FeatureGamesGrid.goToPage(1)"></div>
+        </div>
+        <div class="sarkargames-categories-section">
+        <div class="sarkargames-info-panel">
+            <h2 class="sarkargames-section-title">Online Games at Sarkar Games</h2>
+            <p class="sarkargames-section-description">
+                Sarkar Games features the latest and best free online games. You can enjoy playing fun games without interruptions from downloads, intrusive ads, or pop-ups.
+            </p>
+            <a href="#" class="sarkargames-learn-more">Learn more</a>
+        </div>
+
+        <div class="sarkargames-categories-container">
+            <div class="sarkargames-categories-wrapper" id="sarkargamesCategoriesWrapper">
+                <!-- Page 1 -->
+                <div class="sarkargames-categories-page">
+                    <div class="sarkargames-category-item" data-category="2-player">
+                        <div class="sarkargames-category-icon">👥</div>
+                        <div class="sarkargames-category-name">2 Player</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="adventure">
+                        <div class="sarkargames-category-icon">⚡</div>
+                        <div class="sarkargames-category-name">Adventure</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="beauty">
+                        <div class="sarkargames-category-icon">🌸</div>
+                        <div class="sarkargames-category-name">Beauty</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="car">
+                        <div class="sarkargames-category-icon">🚗</div>
+                        <div class="sarkargames-category-name">Car</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="casual">
+                        <div class="sarkargames-category-icon">🎯</div>
+                        <div class="sarkargames-category-name">Casual</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="controller">
+                        <div class="sarkargames-category-icon">🎮</div>
+                        <div class="sarkargames-category-name">Controller</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="action">
+                        <div class="sarkargames-category-icon">⚔️</div>
+                        <div class="sarkargames-category-name">Action</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="basketball">
+                        <div class="sarkargames-category-icon">🏀</div>
+                        <div class="sarkargames-category-name">Basketball</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="bike">
+                        <div class="sarkargames-category-icon">🏍️</div>
+                        <div class="sarkargames-category-name">Bike</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="card">
+                        <div class="sarkargames-category-icon">🃏</div>
+                        <div class="sarkargames-category-name">Card</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="clicker">
+                        <div class="sarkargames-category-icon">💫</div>
+                        <div class="sarkargames-category-name">Clicker</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="dress-up">
+                        <div class="sarkargames-category-icon">👗</div>
+                        <div class="sarkargames-category-name">Dress Up</div>
+                    </div>
+                </div>
+
+                <!-- Page 2 -->
+                <div class="sarkargames-categories-page">
+                    <div class="sarkargames-category-item" data-category="puzzle">
+                        <div class="sarkargames-category-icon">🧩</div>
+                        <div class="sarkargames-category-name">Puzzle</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="running">
+                        <div class="sarkargames-category-icon">🏃</div>
+                        <div class="sarkargames-category-name">Running</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="shooting">
+                        <div class="sarkargames-category-icon">🎯</div>
+                        <div class="sarkargames-category-name">Shooting</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="soccer">
+                        <div class="sarkargames-category-icon">⚽</div>
+                        <div class="sarkargames-category-name">Soccer</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="strategy">
+                        <div class="sarkargames-category-icon">🎲</div>
+                        <div class="sarkargames-category-name">Strategy</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="archery">
+                        <div class="sarkargames-category-icon">🏹</div>
+                        <div class="sarkargames-category-name">Archery</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="cooking">
+                        <div class="sarkargames-category-icon">🍳</div>
+                        <div class="sarkargames-category-name">Cooking</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="skill">
+                        <div class="sarkargames-category-icon">🎯</div>
+                        <div class="sarkargames-category-name">Skill</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="volleyball">
+                        <div class="sarkargames-category-icon">🏐</div>
+                        <div class="sarkargames-category-name">Volleyball</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="art">
+                        <div class="sarkargames-category-icon">🎨</div>
+                        <div class="sarkargames-category-name">Art</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="fun">
+                        <div class="sarkargames-category-icon">🎉</div>
+                        <div class="sarkargames-category-name">Fun</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="swimming">
+                        <div class="sarkargames-category-icon">🏊</div>
+                        <div class="sarkargames-category-name">Swimming</div>
+                    </div>
+                </div>
+
+                <!-- Page 3 -->
+                <div class="sarkargames-categories-page">
+                    <div class="sarkargames-category-item" data-category="bowling">
+                        <div class="sarkargames-category-icon">🎳</div>
+                        <div class="sarkargames-category-name">Bowling</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="drama">
+                        <div class="sarkargames-category-icon">🎭</div>
+                        <div class="sarkargames-category-name">Drama</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="circus">
+                        <div class="sarkargames-category-icon">🎪</div>
+                        <div class="sarkargames-category-name">Circus</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="drawing">
+                        <div class="sarkargames-category-icon">✏️</div>
+                        <div class="sarkargames-category-name">Drawing</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="music">
+                        <div class="sarkargames-category-icon">🎵</div>
+                        <div class="sarkargames-category-name">Music</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="board">
+                        <div class="sarkargames-category-icon">🎲</div>
+                        <div class="sarkargames-category-name">Board</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="logic">
+                        <div class="sarkargames-category-icon">🧠</div>
+                        <div class="sarkargames-category-name">Logic</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="party">
+                        <div class="sarkargames-category-icon">🎊</div>
+                        <div class="sarkargames-category-name">Party</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="tournament">
+                        <div class="sarkargames-category-icon">🏆</div>
+                        <div class="sarkargames-category-name">Tournament</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="featured">
+                        <div class="sarkargames-category-icon">⭐</div>
+                        <div class="sarkargames-category-name">Featured</div>
+                    </div>
+                    <div class="sarkargames-category-item" data-category="trending">
+                        <div class="sarkargames-category-icon">🔥</div>
+                        <div class="sarkargames-category-name">Trending</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="sarkargames-nav-arrow" id="sarkargamesNextArrow">›</button>
+        </div>
+
+        <div class="sarkargames-progress-bar">
+            <div class="sarkargames-progress-fill" id="sarkargamesProgressFill"></div>
+        </div>
+
+        
+    </div>
+     <div class="ags-container">
+        <div class="ags-header">
+            <div class="ags-title">
+                All Games <span class="ags-plus-icon">+</span>
+            </div>
+            <div class="ags-header-controls">
+                <span class="ags-view-more">View More</span>
+                <div class="ags-header-nav">
+                    <button class="ags-nav-btn" id="agsNavPrev">‹</button>
+                    <button class="ags-nav-btn" id="agsNavNext">›</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ags-grid-container">
+            <div class="ags-grid-wrapper" id="agsGridWrapper">
+                <!-- Page 1 - 20 games -->
+                <div class="ags-grid-page">
+                    <div class="ags-game-card" data-game="eggy-car-1">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-1">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-1">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-1">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-1">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-1">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-2">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-2">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-2">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-2">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-2">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-2">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-3">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-3">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-3">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-3">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-3">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-3">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-4">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-4">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                </div>
+
+                <!-- Page 2 - 20 games -->
+                <div class="ags-grid-page">
+                    <div class="ags-game-card" data-game="drive-mad-4">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-4">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-4">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-4">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-5">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-5">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-5">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-5">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-5">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-5">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-6">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-6">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-6">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-6">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-6">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-6">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-7">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-7">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-7">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-7">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                </div>
+
+                <!-- Page 3 - 20 games -->
+                <div class="ags-grid-page">
+                    <div class="ags-game-card" data-game="monster-tracks-7">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-7">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-8">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-8">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-8">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-8">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-8">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-8">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-9">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-9">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-9">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-9">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-9">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-9">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-10">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-10">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-10">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-10">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-10">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-10">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                </div>
+
+                <!-- Page 4 - 20 games -->
+                <div class="ags-grid-page">
+                    <div class="ags-game-card" data-game="eggy-car-11">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-11">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-11">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-11">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-11">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-11">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-12">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-12">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-12">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-12">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-12">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-12">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-13">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-13">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drive-mad-13">
+                        <img src="https://eggy-car-official.com/sarkar/drive-mad.jpg" alt="Drive Mad" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="1v1-lol-13">
+                        <img src="https://eggy-car-official.com/sarkar/1v1-lol.jpg" alt="1v1 LOL" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="monster-tracks-13">
+                        <img src="https://eggy-car-official.com/sarkar/monster-tracks.jpg" alt="Monster Tracks" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="basketball-legends-13">
+                        <img src="https://eggy-car-official.com/sarkar/basketball-legends.jpg" alt="Basketball Legends" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="eggy-car-14">
+                        <img src="https://eggy-car-official.com/sarkar/eggy-car.jpg" alt="Eggy Car" class="ags-game-image">
+                    </div>
+                    <div class="ags-game-card" data-game="drift-dudes-14">
+                        <img src="https://eggy-car-official.com/sarkar/drift-dudes.jpg" alt="Drift Dudes" class="ags-game-image">
+                    </div>
+                </div>
+            </div>
+
+            <button class="ags-large-arrow" id="agsLargeNext">›</button>
+        </div>
+    </div>
+
+    <script>
+        // All Games Slider Functionality
+        class AllGamesSlider {
+            constructor() {
+                this.currentPage = 0;
+                this.totalPages = 4;
+                this.isSliding = false;
+                
+                this.wrapper = document.getElementById('agsGridWrapper');
+                this.prevBtn = document.getElementById('agsNavPrev');
+                this.nextBtn = document.getElementById('agsNavNext');
+                this.largeNextBtn = document.getElementById('agsLargeNext');
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.setupTouchEvents();
+                this.setupGameClicks();
+                this.updateNavigation();
+                this.handleImageErrors();
+            }
+
+            setupEventListeners() {
+                this.prevBtn.addEventListener('click', () => this.previousPage());
+                this.nextBtn.addEventListener('click', () => this.nextPage());
+                this.largeNextBtn.addEventListener('click', () => this.nextPage());
+                
+                // Mouse drag support
+                let isDragging = false;
+                let startX = 0;
+                
+                this.wrapper.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    startX = e.clientX;
+                    this.wrapper.style.cursor = 'grabbing';
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mouseup', (e) => {
+                    if (!isDragging) return;
+                    
+                    isDragging = false;
+                    this.wrapper.style.cursor = 'grab';
+                    
+                    const endX = e.clientX;
+                    const difference = startX - endX;
+                    
+                    if (Math.abs(difference) > 100) {
+                        if (difference > 0) {
+                            this.nextPage();
+                        } else {
+                            this.previousPage();
+                        }
+                    }
+                });
+
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.target.closest('.ags-container')) {
+                        switch(e.key) {
+                            case 'ArrowLeft':
+                                e.preventDefault();
+                                this.previousPage();
+                                break;
+                            case 'ArrowRight':
+                                e.preventDefault();
+                                this.nextPage();
+                                break;
+                        }
+                    }
+                });
+            }
+
+            setupTouchEvents() {
+                let startX = 0;
+                let endX = 0;
+
+                this.wrapper.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                }, { passive: true });
+
+                this.wrapper.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
+
+                this.wrapper.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    const difference = startX - endX;
+                    
+                    if (Math.abs(difference) > 50) {
+                        if (difference > 0) {
+                            this.nextPage();
+                        } else {
+                            this.previousPage();
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            setupGameClicks() {
+                document.querySelectorAll('.ags-game-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        this.createRipple(e, card);
+                        const gameId = card.getAttribute('data-game');
+                        const gameImg = card.querySelector('.ags-game-image');
+                        const gameTitle = gameImg ? gameImg.alt : 'Unknown Game';
+                        
+                        // Add click feedback
+                        card.style.transform = 'scale(0.98)';
+                        setTimeout(() => {
+                            card.style.transform = '';
+                        }, 150);
+                        
+                        console.log(`Game clicked: ${gameTitle} (${gameId})`);
+                        alert(`🎮 Starting ${gameTitle}!`);
+                    });
+                });
+            }
+
+            createRipple(event, element) {
+                const ripple = document.createElement('div');
+                ripple.classList.add('ags-ripple');
+                
+                const rect = element.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
+                
+                element.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+
+            handleImageErrors() {
+                document.querySelectorAll('.ags-game-image').forEach(img => {
+                    img.addEventListener('error', () => {
+                        const card = img.closest('.ags-game-card');
+                        card.classList.add('loading');
+                        img.style.display = 'none';
+                    });
+
+                    img.addEventListener('load', () => {
+                        const card = img.closest('.ags-game-card');
+                        card.classList.remove('loading');
+                    });
+                });
+            }
+
+            updateSlider() {
+                if (this.isSliding) return;
+                
+                this.isSliding = true;
+                const translateX = this.currentPage * -25; // Move by 25% each time (since each page is 25% wide)
+                this.wrapper.style.transform = `translateX(${translateX}%)`;
+                
+                setTimeout(() => {
+                    this.isSliding = false;
+                }, 800); // Match the CSS transition duration
+            }
+
+            updateNavigation() {
+                // Update header navigation buttons
+                this.prevBtn.disabled = (this.currentPage === 0);
+                this.nextBtn.disabled = (this.currentPage === this.totalPages - 1);
+                
+                // Update large arrow button
+                this.largeNextBtn.disabled = (this.currentPage === this.totalPages - 1);
+                
+                // Show/hide large arrow based on current page
+                if (this.currentPage === this.totalPages - 1) {
+                    this.largeNextBtn.style.opacity = '0.3';
+                } else {
+                    this.largeNextBtn.style.opacity = '1';
+                }
+            }
+
+            nextPage() {
+                if (this.isSliding || this.currentPage >= this.totalPages - 1) return;
+                this.currentPage++;
+                this.updateSlider();
+                this.updateNavigation();
+            }
+
+            previousPage() {
+                if (this.isSliding || this.currentPage <= 0) return;
+                this.currentPage--;
+                this.updateSlider();
+                this.updateNavigation();
+            }
+
+            goToPage(pageIndex) {
+                if (this.isSliding || pageIndex === this.currentPage) return;
+                if (pageIndex < 0 || pageIndex >= this.totalPages) return;
+                
+                this.currentPage = pageIndex;
+                this.updateSlider();
+                this.updateNavigation();
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new AllGamesSlider();
+        });
+    </script>
+    </div>
+    <script>
+        // Unique namespace object to avoid conflicts
+        window.FeatureGamesGrid = (function() {
+            let fgCurrentPage = 0;
+            let fgCurrentPosition = 0;
+            const fgTotalGames = 20;
+            const fgItemsVisible = 5; // Show 5 items at a time
+            const fgMaxPosition = fgTotalGames - fgItemsVisible; // 15 positions
+            let fgSlider = null;
+            let fgDots = null;
+            let fgIsSliding = false;
+
+            function fgUpdateSlider() {
+                if (fgIsSliding || !fgSlider) return;
+                
+                fgIsSliding = true;
+                fgSlider.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                
+                // Calculate transform based on current position
+                const translateX = (fgCurrentPosition * 100) / fgTotalGames;
+                fgSlider.style.transform = `translateX(-${translateX}%)`;
+                
+                // Update pagination dots
+                const activePage = Math.floor(fgCurrentPosition / fgItemsVisible);
+                fgDots.forEach((dot, index) => {
+                    dot.classList.remove('fg-grid-active');
+                    if (index === activePage) {
+                        dot.classList.add('fg-grid-active');
+                    }
+                });
+                
+                setTimeout(() => {
+                    fgIsSliding = false;
+                }, 600);
+            }
+
+            function fgNextPage() {
+                if (fgIsSliding) return;
+                
+                // Only move if not at the end
+                if (fgCurrentPosition < fgMaxPosition) {
+                    fgCurrentPosition += 2; // Move by 2 items each time
+                    fgUpdateSlider();
+                }
+            }
+
+            function fgPreviousPage() {
+                if (fgIsSliding) return;
+                
+                // Only move if not at the beginning
+                if (fgCurrentPosition > 0) {
+                    fgCurrentPosition -= 2; // Move by 2 items each time
+                    fgUpdateSlider();
+                }
+            }
+
+            function fgGoToPage(pageIndex) {
+                if (fgIsSliding) return;
+                
+                const newPosition = pageIndex * fgItemsVisible;
+                if (newPosition <= fgMaxPosition) {
+                    fgCurrentPosition = newPosition;
+                    fgUpdateSlider();
+                }
+            }
+
+            function fgInitialize() {
+                fgSlider = document.getElementById('fgGridSlider');
+                fgDots = document.querySelectorAll('.fg-grid-page-dot');
+                
+                if (!fgSlider) return;
+
+                // Touch/swipe support for mobile
+                let fgStartX = 0;
+                let fgEndX = 0;
+
+                fgSlider.addEventListener('touchstart', (e) => {
+                    fgStartX = e.touches[0].clientX;
+                });
+
+                fgSlider.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                });
+
+                fgSlider.addEventListener('touchend', (e) => {
+                    fgEndX = e.changedTouches[0].clientX;
+                    const difference = fgStartX - fgEndX;
+                    
+                    if (Math.abs(difference) > 50) { // Minimum swipe distance
+                        if (difference > 0) {
+                            fgNextPage(); // Swipe left - next
+                        } else {
+                            fgPreviousPage(); // Swipe right - previous
+                        }
+                    }
+                });
+
+                // Mouse drag support for desktop
+                let fgIsDragging = false;
+                let fgDragStartX = 0;
+
+                fgSlider.addEventListener('mousedown', (e) => {
+                    fgIsDragging = true;
+                    fgDragStartX = e.clientX;
+                    fgSlider.style.cursor = 'grabbing';
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!fgIsDragging) return;
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mouseup', (e) => {
+                    if (!fgIsDragging) return;
+                    
+                    fgIsDragging = false;
+                    fgSlider.style.cursor = 'grab';
+                    
+                    const fgDragEndX = e.clientX;
+                    const difference = fgDragStartX - fgDragEndX;
+                    
+                    if (Math.abs(difference) > 100) { // Minimum drag distance
+                        if (difference > 0) {
+                            fgNextPage(); // Drag left - next
+                        } else {
+                            fgPreviousPage(); // Drag right - previous
+                        }
+                    }
+                });
+
+                // Keyboard navigation (only when focus is on grid)
+                fgSlider.addEventListener('keydown', (e) => {
+                    switch(e.key) {
+                        case 'ArrowLeft':
+                            e.preventDefault();
+                            fgPreviousPage();
+                            break;
+                        case 'ArrowRight':
+                            e.preventDefault();
+                            fgNextPage();
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            fgCurrentPosition = 0;
+                            fgUpdateSlider();
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            fgCurrentPosition = fgMaxPosition;
+                            fgUpdateSlider();
+                            break;
+                    }
+                });
+
+                // Add tabindex to make slider focusable
+                fgSlider.setAttribute('tabindex', '0');
+
+                // Game click events with ripple effect
+                const fgGameItems = document.querySelectorAll('.fg-grid-game-item');
+                fgGameItems.forEach((item, index) => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const gameContent = this.querySelector('.fg-grid-game-content').textContent;
+                        
+                        // Add click ripple effect
+                        const ripple = document.createElement('div');
+                        ripple.className = 'fg-grid-ripple-effect';
+                        ripple.style.left = `${e.offsetX - 50}px`;
+                        ripple.style.top = `${e.offsetY - 50}px`;
+                        
+                        this.appendChild(ripple);
+                        
+                        setTimeout(() => {
+                            ripple.remove();
+                            alert(`🎮 Starting ${gameContent}!`);
+                        }, 300);
+                    });
+                });
+
+                // Handle window resize for responsive behavior
+                window.addEventListener('resize', () => {
+                    fgUpdateSlider();
+                });
+
+                // Initialize slider position
+                fgUpdateSlider();
+            }
+
+            // Public API
+            return {
+                nextPage: fgNextPage,
+                previousPage: fgPreviousPage,
+                goToPage: fgGoToPage,
+                init: fgInitialize
+            };
+        })();
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            FeatureGamesGrid.init();
+        });
+    </script>
+
+    </div>
+
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 2;
+        const slider = document.getElementById('gridSlider');
+        const dots = document.querySelectorAll('.page-dot');
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentPage * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentPage);
+            });
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                updateSlider();
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                updateSlider();
+            }
+        }
+
+        function goToPage(pageIndex) {
+            currentPage = pageIndex;
+            updateSlider();
+        }
+
+        document.querySelectorAll('.game-item').forEach((item, index) => {
+            item.addEventListener('click', function() {
+                const gameContent = this.querySelector('.game-content').textContent;
+                alert(`🎮 Starting ${gameContent.replace(/\n/g, ' ')}!`);
+            });
+        });
+    </script>
+    </div>
+
+    <script>
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            sidebar.classList.toggle('hidden');
+            mainContent.classList.toggle('expanded');
+        }
+        // Generate Categories (25 categories)
+        function generateCategories() {
+            const container = document.querySelector('#categoriesSection .categories-grid');
+            const categories = [
+                { icon: '⚔️', name: 'Action' },
+                { icon: '🗺️', name: 'Adventure' },
+                { icon: '🏀', name: 'Basketball' },
+                { icon: '💄', name: 'Beauty' },
+                { icon: '🚴', name: 'Bike' },
+                { icon: '🚗', name: 'Car' },
+                { icon: '🃏', name: 'Card' },
+                { icon: '⚽', name: 'Football' },
+                { icon: '👗', name: 'Dress Up' },
+                { icon: '🏃', name: 'Running' },
+                { icon: '🎯', name: 'Target' },
+                { icon: '🚀', name: 'Space' },
+                { icon: '❓', name: 'Quiz' },
+                { icon: '👥', name: 'Robot' },
+                { icon: '🏰', name: 'Temple' },
+                { icon: '✈️', name: 'Paper Plane' }
+            ];
+
+        }
+
+        // Slide functionality
+        let slidePositions = {
+            random: 0,
+            feature: 0,
+            all: 0,
+            categories: 0
+        };
+    </script>
+    <script>
+        // sarkargames Categories Functionality
+        class sarkargamesCategories {
+            constructor() {
+                this.currentPage = 0;
+                this.totalPages = 3;
+                this.isSliding = false;
+                this.autoSlideInterval = null;
+                this.autoSlideProgress = 0;
+                this.autoSlideDelay = 5000; // 5 seconds
+                
+                this.wrapper = document.getElementById('sarkargamesCategoriesWrapper');
+                this.nextArrow = document.getElementById('sarkargamesNextArrow');
+                this.progressFill = document.getElementById('sarkargamesProgressFill');
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.startAutoSlide();
+                this.setupTouchEvents();
+                this.setupCategoryClicks();
+            }
+
+            setupEventListeners() {
+                this.nextArrow.addEventListener('click', () => this.nextPage());
+                
+                // Mouse drag support
+                let isDragging = false;
+                let startX = 0;
+                
+                this.wrapper.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    startX = e.clientX;
+                    this.wrapper.style.cursor = 'grabbing';
+                    this.stopAutoSlide();
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mouseup', (e) => {
+                    if (!isDragging) return;
+                    
+                    isDragging = false;
+                    this.wrapper.style.cursor = 'grab';
+                    
+                    const endX = e.clientX;
+                    const difference = startX - endX;
+                    
+                    if (Math.abs(difference) > 100) {
+                        if (difference > 0) {
+                            this.nextPage();
+                        } else {
+                            this.previousPage();
+                        }
+                    }
+                    
+                    this.startAutoSlide();
+                });
+ 
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.target.closest('.sarkargames-categories-section')) {
+                        switch(e.key) {
+                            case 'ArrowLeft':
+                                e.preventDefault();
+                                this.previousPage();
+                                break;
+                            case 'ArrowRight':
+                                e.preventDefault();
+                                this.nextPage();
+                                break;
+                        }
+                    }
+                });
+
+                // Pause auto-slide on hover
+                document.querySelector('.sarkargames-categories-section').addEventListener('mouseenter', () => {
+                    this.stopAutoSlide();
+                });
+
+                document.querySelector('.sarkargames-categories-section').addEventListener('mouseleave', () => {
+                    this.startAutoSlide();
+                });
+            }
+
+            setupTouchEvents() {
+                let startX = 0;
+                let endX = 0;
+
+                this.wrapper.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    this.stopAutoSlide();
+                }, { passive: true });
+
+                this.wrapper.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
+
+                this.wrapper.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    const difference = startX - endX;
+                    
+                    if (Math.abs(difference) > 50) {
+                        if (difference > 0) {
+                            this.nextPage();
+                        } else {
+                            this.previousPage();
+                        }
+                    }
+                    
+                    this.startAutoSlide();
+                }, { passive: true });
+            }
+
+            setupCategoryClicks() {
+                document.querySelectorAll('.sarkargames-category-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        this.createRipple(e, item);
+                        const category = item.getAttribute('data-category');
+                        console.log(`Category clicked: ${category}`);
+                        
+                        // Add visual feedback
+                        item.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            item.style.transform = '';
+                        }, 150);
+                    });
+                });
+            }
+
+            createRipple(event, element) {
+                const ripple = document.createElement('div');
+                ripple.classList.add('sarkargames-ripple');
+                
+                const rect = element.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
+                
+                element.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+
+            updateSlider() {
+                if (this.isSliding) return;
+                
+                this.isSliding = true;
+                const translateX = this.currentPage * -100;
+                this.wrapper.style.transform = `translateX(${translateX}%)`;
+                
+                setTimeout(() => {
+                    this.isSliding = false;
+                }, 600);
+            }
+
+            nextPage() {
+                this.currentPage = (this.currentPage + 1) % this.totalPages;
+                this.updateSlider();
+                this.resetAutoSlide();
+            }
+
+            previousPage() {
+                this.currentPage = (this.currentPage - 1 + this.totalPages) % this.totalPages;
+                this.updateSlider();
+                this.resetAutoSlide();
+            }
+
+            startAutoSlide() {
+                this.stopAutoSlide();
+                this.autoSlideProgress = 0;
+                this.updateProgress();
+                
+                this.autoSlideInterval = setInterval(() => {
+                    this.autoSlideProgress += 100;
+                    this.updateProgress();
+                    
+                    if (this.autoSlideProgress >= this.autoSlideDelay) {
+                        this.nextPage();
+                    }
+                }, 100);
+            }
+
+            stopAutoSlide() {
+                if (this.autoSlideInterval) {
+                    clearInterval(this.autoSlideInterval);
+                    this.autoSlideInterval = null;
+                }
+            }
+
+            resetAutoSlide() {
+                this.stopAutoSlide();
+                this.startAutoSlide();
+            }
+
+            updateProgress() {
+                const percentage = (this.autoSlideProgress / this.autoSlideDelay) * 100;
+                this.progressFill.style.width = `${Math.min(percentage, 100)}%`;
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new sarkargamesCategories();
+        });
+    </script>
+</body>
+
+</html>
